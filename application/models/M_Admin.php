@@ -207,5 +207,71 @@ class M_Admin extends CI_Model
       }
       return $string;
   }
+
+  //QR CODE DIBAWAH INI
+  public function cek_id($nim)
+  {
+      $query_str = $this->db->where('anggota_id', $nim)->get('tbl_login');
+      if ($query_str->num_rows() > 0) {
+          return $query_str->row();
+      } else {
+          return false;
+      }
+  }
+
+  public function absen_masuk($data)
+  {
+        return $this->db->insert('presensi', $data);
+  }
+
+  public function cek_kehadiran($nim, $tgl)
+    {
+        $query_str = $this->db->where('nim', $nim)->where('tgl', $tgl)->get('presensi');
+        if ($query_str->num_rows() > 0) {
+            return $query_str->row();
+        } else {
+            return false;
+        }
+    }
+
+    public function absen_pulang($nim, $data)
+    {
+        $tgl = date('Y-m-d');
+        return $this->db->where('nim', $nim)->where('tgl', $tgl)->update('presensi', $data);
+    }
+
+    public function foto_mhs($nim)
+    {
+        $url = 'https://dpna.api.untan.ac.id/mhs/getpicbynim/'.$nim;
+        if ($url) {
+            return $url;
+        }else{
+            return 'Kosong';
+        }
+    }
+
+    public function biodata($nim, $kategori)
+    {
+        $data = $this->db->get_where('tbl_login', ['anggota_id' => $nim])->row_array();
+        if ($kategori == 'nim') {
+            $hasil = $data['anggota_id'];
+        }elseif($kategori == 'nama'){
+            $hasil = $data['nama'];
+        }elseif($kategori == 'prodi'){
+            $hasil = $data['prodi'];
+        }elseif($kategori == 'user_type'){
+            $hasil = $data['user_type'];
+        }
+
+        return $hasil;
+    }
+
+    public function data_masuk($nim)
+    {
+        $sql = "SELECT * FROM presensi WHERE nim='$nim' ORDER BY id DESC LIMIT 1";
+        $data = $this->db->query($sql)->row_array();
+
+        return $data;
+    }
 }
 ?>

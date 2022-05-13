@@ -72,16 +72,16 @@
                 <a href="#">Home</a>
               </li>
               <li>
-                <a href="#">Buku</a>
+                <a href="<?= base_url('home/buku') ?>">Buku</a>
               </li>
               <li>
-                <a href="#">Kunjungan</a>
+                <a href="<?= base_url('home/pengunjung') ?>">Kunjungan</a>
               </li>
               <li>
-                <a href="#">Daftar</a>
+                <a href="<?= base_url('login/daftar') ?>">Daftar</a>
               </li>
               <li>
-                <a href="#">Login</a>
+                <a href="<?= base_url('login') ?>">Login</a>
               </li>
             </ul>
           </div>
